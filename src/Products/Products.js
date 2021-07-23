@@ -1,5 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/css';
+import { Outlet } from 'react-router-dom';
 
 const ProductsStyles = css`
   display: flex;
@@ -17,7 +18,7 @@ const Products = () => (
       src='/assets/img/logo.svg'
       alt='Ultimate Burgers Logotype'
     />
-    Products
+    <Outlet />
   </div>
 );
 
