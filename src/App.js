@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import Admin from './Admin/Admin';
 import Products from './Products/Products';
+import Product from './Products/Product';
 import Nav from './Common/Nav';
 import { css } from '@emotion/css';
 import ProductsIndex from './Products/ProductsIndex';
@@ -31,6 +32,7 @@ const App = () => {
           <Routes>
             <Route path='/' element={<Products />}>
               <Route path='/' element={<ProductsIndex />} />
+              <Route path=':id' element={<Product />} />
             </Route>
             <Route path='/admin' element={<Admin />} />
             <Route path='*' element={<Navigate to='/' />} />
