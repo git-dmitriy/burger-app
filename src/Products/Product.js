@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router';
+import { useParams, useNavigate } from 'react-router';
 import { retrieveProduct } from './ProductService';
 import { css } from '@emotion/css';
 
@@ -32,12 +32,18 @@ const ProductStyles = css`
 
 const Product = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
     (async () => {
-      const product = await retrieveProduct(id);
-      setProduct(product);
+      try {
+        const product = await retrieveProduct(id);
+        setProduct(product);
+      } catch (e) {
+        console.warn(e);
+        navigate('/', { replace: true, state: { id } });
+      }
     })();
   }, [id]);
 
