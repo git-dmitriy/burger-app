@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { listProducts } from './ProductService';
+import ProductCard from './ProductCard';
 
 const ProductsIndex = () => {
   const [products, setProducts] = useState(null);
@@ -15,9 +16,9 @@ const ProductsIndex = () => {
     return <div>Loading...</div>;
   }
   return (
-    <ul>
+    <ul style={{ padding: '0', listStyle: 'none' }}>
       {products.map((item) => (
-        <li key={item.id}>{item.name}</li>
+        <ProductCard product={item} key={item.id} />
       ))}
     </ul>
   );
