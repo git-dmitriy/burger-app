@@ -1,12 +1,13 @@
 import React from 'react';
 import { css } from '@emotion/css';
-import { Outlet } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+import Product from './Product';
+import ProductsIndex from './ProductsIndex';
 
 const ProductsStyles = css`
   display: flex;
   flex-direction: column;
-  .logo {
-    width: 125px;
+  .Logo {
     margin: 0 auto 25px;
   }
 `;
@@ -18,7 +19,10 @@ const Products = () => (
       src='/assets/img/logo.svg'
       alt='Ultimate Burgers Logotype'
     />
-    <Outlet />
+    <Routes>
+      <Route path='/' element={<ProductsIndex />} />
+      <Route path=':id' element={<Product />} />
+    </Routes>
   </div>
 );
 
