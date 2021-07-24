@@ -6,6 +6,8 @@ import { useLocation } from 'react-router';
 const ProductsIndex = () => {
   const { state } = useLocation();
   const [products, setProducts] = useState(null);
+  let controller = new AbortController();
+
   useEffect(() => {
     if (state) {
       console.warn(`Nothing found for ${state.id}`);
@@ -15,8 +17,10 @@ const ProductsIndex = () => {
   useEffect(() => {
     (async () => {
       const data = await listProducts();
+      controller.signal;
       setProducts(data);
     })();
+    return () => controller?.abort();
   }, []);
 
   if (products === null) {
