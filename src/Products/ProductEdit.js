@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { css } from '@emotion/css';
 
-import { createProduct, retrieveProduct } from './ProductService';
+import {
+  createProduct,
+  retrieveProduct,
+  updateProduct,
+} from './ProductService';
 
 const ProductEditStyles = css`
   color: #fff;
@@ -63,6 +67,16 @@ const ProductEdit = () => {
     try {
       const { id } = await createProduct(form);
       navigate(`/admin/${id}`);
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
+  const handleUpdate = async () => {
+    try {
+      await updateProduct(form);
+      alert(`Update ${form.name}`);
+      navigate('/admin');
     } catch (err) {
       console.warn(err);
     }
@@ -131,6 +145,13 @@ const ProductEdit = () => {
         onClick={handleCreate}
       >
         Create
+      </button>
+      <button
+        className='ProductEdit-Button'
+        type='button'
+        onClick={handleUpdate}
+      >
+        Update
       </button>
     </form>
   );
