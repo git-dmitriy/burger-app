@@ -6,6 +6,7 @@ import {
   createProduct,
   retrieveProduct,
   updateProduct,
+  deleteProduct,
 } from './ProductService';
 
 const ProductEditStyles = css`
@@ -82,6 +83,18 @@ const ProductEdit = () => {
     }
   };
 
+  const handleDelete = async () => {
+    if (!window.confirm(`Delete this ${form.name} product?`)) {
+      return;
+    }
+    try {
+      await deleteProduct(form.id);
+      navigate('/admin');
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
   useEffect(() => {
     setForm({
       id: '',
@@ -92,7 +105,6 @@ const ProductEdit = () => {
 
     (async () => {
       try {
-        console.log('In async try');
         const product = await retrieveProduct(id);
         setForm(product);
       } catch (err) {
@@ -152,6 +164,13 @@ const ProductEdit = () => {
         onClick={handleUpdate}
       >
         Update
+      </button>
+      <button
+        className='ProductEdit-Button'
+        type='button'
+        onClick={handleDelete}
+      >
+        Delete
       </button>
     </form>
   );
