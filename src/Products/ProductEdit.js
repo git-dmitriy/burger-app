@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { css } from '@emotion/css';
 
-import { createProduct } from './ProductService';
+import { createProduct, retrieveProduct } from './ProductService';
 
 const ProductEditStyles = css`
   color: #fff;
@@ -48,6 +48,7 @@ const ProductEditStyles = css`
 `;
 
 const ProductEdit = () => {
+  const { id } = useParams();
   const [form, setForm] = useState(null);
   const navigate = useNavigate();
 
@@ -74,6 +75,17 @@ const ProductEdit = () => {
       price: 0,
       description: '',
     });
+
+    (async () => {
+      try {
+        console.log('In async try');
+        const product = await retrieveProduct(id);
+        setForm(product);
+      } catch (err) {
+        console.warn(err);
+        navigate('/admin', { replace: true });
+      }
+    })();
   }, []);
 
   if (form === null) {
