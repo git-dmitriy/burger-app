@@ -28,7 +28,6 @@ const ProductEditStyles = css`
         border-color: #50fa7b;
       }
     }
-
     &-Textarea {
       min-height: 80px;
       resize: none;
@@ -44,7 +43,14 @@ const ProductEditStyles = css`
       cursor: pointer;
       font-weight: 600;
       text-transform: uppercase;
-      &:focus {
+      transition: border .2s, color.2s;
+      &-Wrapper {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+      &:focus,
+      &:hover {
         border: 2px solid #50fa7b;
         color: #50fa7b;
       }
@@ -151,27 +157,29 @@ const ProductEdit = () => {
         className='ProductEdit-Input ProductEdit-Textarea'
         onChange={({ target }) => updateField(target)}
       />
-      <button
-        className='ProductEdit-Button'
-        type='button'
-        onClick={handleCreate}
-      >
-        Create
-      </button>
-      <button
-        className='ProductEdit-Button'
-        type='button'
-        onClick={handleUpdate}
-      >
-        Update
-      </button>
-      <button
-        className='ProductEdit-Button'
-        type='button'
-        onClick={handleDelete}
-      >
-        Delete
-      </button>
+      <div className='ProductEdit-Button-Wrapper'>
+        <button
+          className='ProductEdit-Button'
+          type='button'
+          onClick={handleCreate}
+        >
+          Create
+        </button>
+        <button
+          className='ProductEdit-Button'
+          type='button'
+          onClick={handleUpdate}
+        >
+          Update
+        </button>
+        <button
+          className='ProductEdit-Button'
+          type='button'
+          onClick={handleDelete}
+        >
+          Delete
+        </button>
+      </div>
     </form>
   );
 };
