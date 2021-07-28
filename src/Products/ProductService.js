@@ -14,3 +14,17 @@ export const retrieveProduct = async (id) => {
 
   throw new Error('Something went wrong');
 };
+
+export const createProduct = async (payload) => {
+  const response = await fetch(`/api/products`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  });
+  if (response.ok) {
+    return response.json();
+  }
+  throw new Error('Something went wrong');
+};
