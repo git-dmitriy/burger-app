@@ -43,7 +43,7 @@ const ProductEditStyles = css`
       cursor: pointer;
       font-weight: 600;
       text-transform: uppercase;
-      transition: border .2s, color.2s;
+      transition: border 0.2s, color.2s;
       &-Wrapper {
         display: flex;
         justify-content: space-around;
@@ -58,7 +58,7 @@ const ProductEditStyles = css`
   }
 `;
 
-const ProductEdit = () => {
+const ProductEdit = ({ isEdit }) => {
   const { id } = useParams();
   const [form, setForm] = useState(null);
   const navigate = useNavigate();
@@ -82,6 +82,8 @@ const ProductEdit = () => {
   const handleUpdate = async () => {
     try {
       await updateProduct(form);
+      // ! --------------------------------------
+      // todo create a notification component
       alert(`Update ${form.name}`);
       navigate('/admin');
     } catch (err) {
@@ -90,6 +92,8 @@ const ProductEdit = () => {
   };
 
   const handleDelete = async () => {
+    // ! --------------------------------------
+    // todo create a notification component
     if (!window.confirm(`Delete this ${form.name} product?`)) {
       return;
     }
@@ -102,12 +106,15 @@ const ProductEdit = () => {
   };
 
   useEffect(() => {
-    setForm({
-      id: '',
-      name: '',
-      price: 0,
-      description: '',
-    });
+    if (!isEdit) {
+      setForm({
+        id: '',
+        name: '',
+        price: 0,
+        description: '',
+      });
+      return;
+    }
 
     (async () => {
       try {
@@ -158,27 +165,33 @@ const ProductEdit = () => {
         onChange={({ target }) => updateField(target)}
       />
       <div className='ProductEdit-Button-Wrapper'>
-        <button
-          className='ProductEdit-Button'
-          type='button'
-          onClick={handleCreate}
-        >
-          Create
-        </button>
-        <button
-          className='ProductEdit-Button'
-          type='button'
-          onClick={handleUpdate}
-        >
-          Update
-        </button>
-        <button
-          className='ProductEdit-Button'
-          type='button'
-          onClick={handleDelete}
-        >
-          Delete
-        </button>
+        {!isEdit && (
+          <button
+            className='ProductEdit-Button'
+            type='button'
+            onClick={handleCreate}
+          >
+            Create
+          </button>
+        )}
+        {isEdit && (
+          <button
+            className='ProductEdit-Button'
+            type='button'
+            onClick={handleUpdate}
+          >
+            Update
+          </button>
+        )}
+        {isEdit && (
+          <button
+            className='ProductEdit-Button'
+            type='button'
+            onClick={handleDelete}
+          >
+            Delete
+          </button>
+        )}
       </div>
     </form>
   );
