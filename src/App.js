@@ -10,6 +10,7 @@ import Products from './Products/Products';
 import ProtectedRoute from './Common/ProtectedRoute';
 import Nav from './Common/Nav';
 import { css } from '@emotion/css';
+import ScrollToTop from './Common/ScrollToTop';
 
 const AppStyles = css`
   margin: 50px auto;
@@ -28,12 +29,13 @@ const App = () => {
   return (
     <div className={AppStyles}>
       <Router>
+        <ScrollToTop />
         <div className='Container'>
           <Nav />
           <Routes>
             <Route path='/*' element={<Products />} />
             <ProtectedRoute
-              path='/admin'
+              path='/admin*'
               element={<Admin />}
               authenticated={authenticated}
               redirectTo='/'
