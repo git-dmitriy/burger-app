@@ -48,8 +48,9 @@ const ProductsIndex = () => {
   useEffect(() => {
     (async () => {
       const data = await listProducts();
+      const params = Object.fromEntries([...searchParams]);
       controller.signal;
-      setProducts(data);
+      sortProductsFromParams(data, params);
     })();
     return () => controller?.abort();
   }, []);
@@ -59,6 +60,27 @@ const ProductsIndex = () => {
     const currentParams = Object.fromEntries([...searchParams]);
     const newParams = { ...currentParams, [name]: value };
     setSearchParams(newParams);
+    sortProductsFromParams(products, newParams);
+  };
+
+  const sortProductsFromParams = (data, params) => {
+    if (!Object.keys(params).length) {
+      setProducts(data);
+      return;
+    }
+
+    const sorted = [...data].sort((x, y) => {
+      const { sort, order } = params;
+      switch (order) {
+        case 'ascending':
+          return x[sort] > y[sort] ? 1 : -1;
+        case 'descending':
+          return x[sort] < y[sort] ? 1 : -1;
+        default:
+          return 0;
+      }
+    });
+    setProducts(sorted);
   };
 
   if (products === null) {
