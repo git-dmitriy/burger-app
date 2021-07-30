@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Navigate, useRoutes } from 'react-router-dom';
 import Admin from './Admin/Admin';
 import Products from './Products/Products';
-import ProtectedRoute from './Common/ProtectedRoute';
 import Nav from './Common/Nav';
 import { css } from '@emotion/css';
 import ScrollToTop from './Common/ScrollToTop';
@@ -25,27 +19,33 @@ const AppStyles = css`
 
 const App = () => {
   const [authenticated] = useState(true);
-
-  return (
-    <div className={AppStyles}>
-      <Router>
-        <ScrollToTop />
-        <div className='Container'>
-          <Nav />
-          <Routes>
-            <Route path='/*' element={<Products />} />
-            <ProtectedRoute
-              path='/admin*'
-              element={<Admin />}
-              authenticated={authenticated}
-              redirectTo='/'
-            />
-            <Route path='*' element={<Navigate to='/' />} />
-          </Routes>
-        </div>
-      </Router>
-    </div>
-  );
+  const routes = useRoutes([
+    {
+      path: '/*',
+      element: <Products />,
+    },
+    {
+      path: '/admin*',
+      element: authenticated ? <Admin /> : <Navigate to='/' />,
+    },
+    {
+      path: '*',
+      element: <Navigate to='/' />,
+    },
+  ]);
+  return routes;
 };
 
-export default App;
+const AppWrapper = () => (
+  <div className={AppStyles}>
+    <Router>
+      <ScrollToTop />
+      <div className='Container'>
+        <Nav />
+        <App />
+      </div>
+    </Router>
+  </div>
+);
+
+export default AppWrapper;
