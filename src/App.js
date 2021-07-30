@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { lazy, useState } from 'react';
 import { BrowserRouter as Router, Navigate, useRoutes } from 'react-router-dom';
-import Admin from './Admin/Admin';
-import Products from './Products/Products';
 import Nav from './Common/Nav';
 import { css } from '@emotion/css';
 import ScrollToTop from './Common/ScrollToTop';
+
+import Loadable from './Common/Loadable';
+const Admin = Loadable(lazy(() => import('./Admin/Admin')));
+const Products = Loadable(lazy(() => import('./Products/Products')));
 
 const AppStyles = css`
   margin: 50px auto;
